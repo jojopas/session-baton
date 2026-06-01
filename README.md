@@ -16,10 +16,14 @@ Most session-continuity tools fall into two camps:
 | Authors a deliberate, distilled marker | ✅ | ❌ (reads existing) | ✅ |
 | Distills (not raw transcript) | ✅ | partial | ✅ |
 | **Overwrites — one marker, never a trail** | ❌ (accumulates) | n/a | ✅ |
-| **Self-deletes on restore** | ❌ | ❌ | ✅ |
+| **Self-delete contract, explicit** † | ❌ | ❌ | ✅ |
 | Treats repo/tracker as live truth | partial | ✅ | ✅ |
 
-The self-delete is the whole point: a resume marker is only accurate at the instant it's written. Keeping it around past the next session's first re-orientation makes it a liability, not an asset. So `renew` writes one marker, the next session consumes it, and the workspace stays clean.
+† Capable models often self-delete an obvious one-shot marker anyway; `renew` makes the cleanup an explicit, reliable contract rather than relying on that instinct.
+
+The real value is on the **write side**: one *distilled* marker (next action, what shipped, what's in-flight, gotchas) — verified against `git`, not a transcript dump — that **overwrites** instead of piling up a trail of stale handoff files. The self-delete contract is written into the marker so cleanup is *explicit and reliable* rather than left to the model's judgment.
+
+> **Tested honesty:** in subagent trials, capable models actually self-delete a file obviously named `SESSION_RESUME.md` *without* this skill — the baton instinct is partly emergent. `renew` earns its keep by (a) standardizing the *write* (distill, verify SHAs, overwrite-one) and (b) guaranteeing the cleanup contract on weaker/cheaper models that won't self-clean. It's a discipline + convention, not a magic trick.
 
 Pair it with a read-side resume skill: `renew` to **bank**, a resume skill to **rehydrate**.
 
