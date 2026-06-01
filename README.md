@@ -25,7 +25,7 @@ The real value is on the **write side**: one *distilled* marker (next action, wh
 
 > **Tested honesty:** in subagent trials, capable models actually self-delete a file obviously named `SESSION_RESUME.md` *without* this skill — the baton instinct is partly emergent. `renew` earns its keep by (a) standardizing the *write* (distill, verify SHAs, overwrite-one) and (b) guaranteeing the cleanup contract on weaker/cheaper models that won't self-clean. It's a discipline + convention, not a magic trick.
 
-Pair it with a read-side resume skill: `renew` to **bank**, a resume skill to **rehydrate**.
+`renew` is **self-contained** — the marker carries its own restore-and-delete instructions, so the next session reads it and continues with no other skill loaded. Read-side scavenger skills like [`agent-session-resume`](https://github.com/hacktivist123/agent-session-resume) solve the *opposite* starting condition: reconstructing context when no deliberate marker was left (digging through native transcripts, exports, compact summaries). If you ran `renew` last session, you don't need them.
 
 ## Install
 

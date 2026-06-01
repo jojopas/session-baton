@@ -79,4 +79,4 @@ The marker's own frontmatter and `🧹 On restore` note must state this, so any 
 - Don't trust the marker over the working tree — if it conflicts with current files, the files win; note the discrepancy.
 
 ## Relationship to other skills
-This is the **write** side of session continuity: it authors a deliberate, distilled baton at session end. Skills like `agent-session-resume` are the **read** side — they reconstruct context from native transcripts/exports. Use both: `renew` to bank, a resume skill to rehydrate. The baton's self-delete keeps the workspace clean either way.
+`renew` is self-contained: it authors the baton AND the baton carries its own restore-and-delete instructions (step 4), so the next session consumes it with no other skill loaded. Read-side resume skills (e.g. `agent-session-resume`) address the *opposite* condition — reconstructing context when no deliberate marker exists, by scavenging native transcripts/exports. If you ran `renew`, you don't need them; if you didn't, they're the fallback.
