@@ -71,6 +71,17 @@ The marker reflects a moment in time and rots quickly. Therefore, **at the START
 
 The marker's own frontmatter and `🧹 On restore` note must state this, so any agent that reads it knows to clean up.
 
+### Make it automatic (optional `SessionStart` hook)
+Without a hook, the next session still has to *notice* the marker and act on it — that's the "now tell it to continue" tax. Install the bundled `hooks/session-start.sh` and the read side becomes hands-off:
+
+```
+/renew     → bank the session into the marker
+/clear     → fresh session; the hook injects the marker as context;
+             this session restores, re-orients, and deletes the baton itself.
+```
+
+The hook only emits when a marker exists, so normal startups are a silent no-op. `/clear` is the one keystroke that can't be automated (no agent can clear its own context) — the hook removes everything *after* it. See the repo README for install.
+
 ## Don't
 - Don't write the whole transcript — synthesize the *resumable* state.
 - Don't duplicate what the repo / tracker already surfaces — capture the non-obvious (next action, decisions, gotchas).

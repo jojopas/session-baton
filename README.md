@@ -47,10 +47,49 @@ or just say "bank the session" / "leave a resume marker."
 
 It writes `SESSION_RESUME.md` at the repo root. Next session, the marker bootstraps you back in — then gets deleted.
 
+## Auto-resume (optional hook) — the fast path
+
+The skill alone is the *write* side: `/renew` banks the marker. On its own, the next session still has to notice the marker and act on it — so the flow is `/renew` → `/clear` → "ok, continue." That last nudge is the friction.
+
+The bundled **`SessionStart` hook** removes it. It injects the marker into the fresh session automatically, so the session restores, re-orients, and deletes the baton with no prompting:
+
+```
+/renew     → bank the session into the marker
+/clear     → fresh session auto-restores from the marker, then deletes it
+```
+
+Two keystrokes. `/clear` itself can't be automated — **no agent can clear its own context** (there is no tool, command, or hook that resets the conversation mid-turn; `/clear` is user-only). The hook automates everything *after* the clear.
+
+### Install the hook (Claude Code)
+
+1. Copy the hook somewhere stable, e.g.:
+   ```sh
+   mkdir -p ~/.claude/hooks
+   cp hooks/session-start.sh ~/.claude/hooks/session-baton-resume.sh
+   chmod +x ~/.claude/hooks/session-baton-resume.sh
+   ```
+2. Register it as a `SessionStart` hook in `~/.claude/settings.json` (add to the existing array if you already have SessionStart hooks):
+   ```json
+   {
+     "hooks": {
+       "SessionStart": [
+         {
+           "matcher": "",
+           "hooks": [
+             { "type": "command", "command": "~/.claude/hooks/session-baton-resume.sh", "timeout": 5 }
+           ]
+         }
+       ]
+     }
+   }
+   ```
+
+How it works: Claude Code adds a `SessionStart` hook's stdout to the new session's context, and `SessionStart` fires on `/clear`. The hook prints the marker only when one exists — otherwise it's a silent no-op, so ordinary startups are unaffected.
+
 ## Configuration
 
-- **Marker path:** defaults to `SESSION_RESUME.md` at the repo root. If your project keeps a memory index (e.g. `MEMORY.md`), the skill will use/refresh a single pointer there instead.
-- **No external dependencies.** Pure markdown convention — no MCP server, no daemon, no DB.
+- **Marker path:** defaults to `SESSION_RESUME.md` at the repo root. The hook also finds the Claude Code auto-memory-dir variant (`<memory-dir>/<project>-session-resume.md`) if your setup writes the marker there and indexes it in `MEMORY.md`.
+- **No external dependencies.** Pure markdown convention plus an optional pure-shell hook — no MCP server, no daemon, no DB, no `jq`/`python`.
 
 ## License
 
