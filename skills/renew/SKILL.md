@@ -80,7 +80,7 @@ Without a hook, the next session still has to *notice* the marker and act on it 
              this session restores, re-orients, and deletes the baton itself.
 ```
 
-The hook only emits when a marker exists, so normal startups are a silent no-op. `/clear` is the one keystroke that can't be automated (no agent can clear its own context) — the hook removes everything *after* it. See the repo README for install.
+The hook only emits when a marker exists, so normal startups are a silent no-op. `/clear` (or its aliases `/new` / `/reset`) is the one keystroke that can't be automated (no agent can clear its own context) — the hook removes everything *after* it. See the repo README for install.
 
 ## Don't
 - Don't write the whole transcript — synthesize the *resumable* state.

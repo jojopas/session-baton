@@ -84,7 +84,7 @@ Two keystrokes. `/clear` itself can't be automated — **no agent can clear its 
    }
    ```
 
-How it works: Claude Code adds a `SessionStart` hook's stdout to the new session's context, and `SessionStart` fires on `/clear`. The hook prints the marker only when one exists — otherwise it's a silent no-op, so ordinary startups are unaffected.
+How it works: Claude Code adds a `SessionStart` hook's stdout to the new session's context, and `SessionStart` fires on `/clear` (and its aliases `/new` and `/reset`, all `source: "clear"`). The hook prints the marker only when one exists — otherwise it's a silent no-op, so ordinary startups are unaffected.
 
 ## Configuration
 
